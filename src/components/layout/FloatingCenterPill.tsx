@@ -10,14 +10,13 @@ import {
   Activity,
 } from 'lucide-react';
 import { useRuneyStore } from '@/store/useRuneyStore';
-import { TaskViewMode } from '@/types';
 
 export const FloatingCenterPill: React.FC = () => {
   const { taskViewMode, setTaskViewMode, setCurrentTab } = useRuneyStore();
 
   return (
-    <div className="flex items-center justify-center w-full mb-4">
-      <div className="flex items-center gap-1 bg-white px-2 py-1.5 rounded-full border border-zinc-200/90 shadow-runey-card">
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-40 select-none">
+      <div className="flex items-center gap-1 bg-white/90 backdrop-blur-md px-2 py-1.5 rounded-full border border-zinc-200/90 shadow-runey-card">
         {/* View mode 1: Board / Kanban */}
         <button
           onClick={() => {
@@ -86,20 +85,20 @@ export const FloatingCenterPill: React.FC = () => {
           <FileCode size={14} />
         </button>
 
-        {/* Edit / Notes */}
+        {/* Clients & CRM */}
         <button
           onClick={() => setCurrentTab('clients')}
           className="w-7 h-7 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 flex items-center justify-center transition-colors"
-          title="Clients & CRM"
+          title="Customers & CRM"
         >
           <Edit3 size={14} />
         </button>
 
-        {/* Activity */}
+        {/* Report / Analytics */}
         <button
           onClick={() => setCurrentTab('analytics')}
           className="w-7 h-7 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 flex items-center justify-center transition-colors"
-          title="Analytics & Cashflow"
+          title="Reports & Analytics"
         >
           <Activity size={14} />
         </button>

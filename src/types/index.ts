@@ -5,9 +5,13 @@ export type RuneyTab =
   | 'tasks'
   | 'invoices'
   | 'expenses'
+  | 'quotes'
+  | 'proposals'
+  | 'products'
   | 'onboarding'
   | 'integrations'
   | 'analytics'
+  | 'chat'
   | 'ai'
   | 'settings';
 

@@ -43,11 +43,20 @@ interface RuneyState {
   // Global Quick Action / Search Modal
   isQuickSearchOpen: boolean;
   setQuickSearchOpen: (open: boolean) => void;
+
+  // Expandable Sidebar State (Matching Screenshot 6)
+  sidebarExpanded: boolean;
+  setSidebarExpanded: (expanded: boolean) => void;
+  toggleSidebar: () => void;
 }
 
 export const useRuneyStore = create<RuneyState>((set, get) => ({
   currentTab: 'dashboard',
   setCurrentTab: (tab) => set({ currentTab: tab }),
+
+  sidebarExpanded: true,
+  setSidebarExpanded: (expanded) => set({ sidebarExpanded: expanded }),
+  toggleSidebar: () => set((state) => ({ sidebarExpanded: !state.sidebarExpanded })),
 
   taskViewMode: 'board',
   setTaskViewMode: (mode) => set({ taskViewMode: mode }),

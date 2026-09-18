@@ -20,10 +20,10 @@ export const RuneyTopNav: React.FC<TopNavProps> = ({ showBack, onBack }) => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full h-12 mb-4">
-      {/* Left Back Arrow (if in detail view) */}
-      <div className="flex items-center gap-3">
-        {showBack && (
+    <>
+      {/* Optional Left Floating Back Arrow */}
+      {showBack && (
+        <div className="fixed top-4 left-[248px] z-40">
           <button
             onClick={onBack}
             className="w-8 h-8 rounded-full bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center transition-colors shadow-sm"
@@ -31,14 +31,14 @@ export const RuneyTopNav: React.FC<TopNavProps> = ({ showBack, onBack }) => {
           >
             <ArrowLeft size={16} />
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Right Controls: Timer Pill, Search, Notification Bell, User Avatar */}
-      <div className="flex items-center gap-3 ml-auto">
-        {/* Floating Top Right Timer (Matching Screenshot 5!) */}
+      {/* Floating Top Right Widget: Timer Pill, Search, Notification Bell, User Avatar */}
+      <div className="fixed top-4 right-6 z-40 flex items-center gap-2.5 select-none">
+        {/* Floating Timer Pill (Matching Screenshot 5 & 6) */}
         {timer.seconds > 0 && (
-          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-zinc-200/90 shadow-sm">
+          <div className="flex items-center gap-2 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-200/90 shadow-runey-card">
             <span className="font-mono text-xs font-bold text-zinc-900 tracking-wider">
               {formatTimer(timer.seconds)}
             </span>
@@ -64,17 +64,17 @@ export const RuneyTopNav: React.FC<TopNavProps> = ({ showBack, onBack }) => {
         {/* Search Trigger */}
         <button
           onClick={() => setQuickSearchOpen(true)}
-          className="w-8 h-8 rounded-full bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 flex items-center justify-center transition-colors shadow-sm"
+          className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md hover:bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 flex items-center justify-center transition-colors shadow-runey-sm"
           title="Search anything (Cmd + K)"
         >
           <Search size={15} />
         </button>
 
-        {/* Notification Bell with Badge 4 (Matching Screenshot 1 & 3!) */}
+        {/* Notification Bell with Badge 4 */}
         <div className="relative">
           <button
             onClick={() => setIsNotifOpen(!isNotifOpen)}
-            className="w-8 h-8 rounded-full bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 flex items-center justify-center transition-colors shadow-sm relative"
+            className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md hover:bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 flex items-center justify-center transition-colors shadow-runey-sm relative"
             title="Notifications"
           >
             <Bell size={15} />
@@ -118,6 +118,6 @@ export const RuneyTopNav: React.FC<TopNavProps> = ({ showBack, onBack }) => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };

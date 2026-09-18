@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useRuneyStore } from '@/store/useRuneyStore';
 import { RuneySidebar } from '@/components/layout/RuneySidebar';
 import { RuneyTopNav } from '@/components/layout/RuneyTopNav';
@@ -14,10 +15,11 @@ import { RuneySettings } from '@/components/settings/RuneySettings';
 import { RuneyProjects } from '@/components/projects/RuneyProjects';
 import { RuneyAnalytics } from '@/components/analytics/RuneyAnalytics';
 import { RuneyAIStudio } from '@/components/ai/RuneyAIStudio';
+import { RuneyTeamChat } from '@/components/chat/RuneyTeamChat';
 import { RuneyQuickSearchModal } from '@/components/modals/RuneyQuickSearchModal';
 
 export const App: React.FC = () => {
-  const { currentTab, tickTimer } = useRuneyStore();
+  const { currentTab, tickTimer, sidebarExpanded } = useRuneyStore();
 
   // Ambient timer tick
   useEffect(() => {
@@ -40,11 +42,16 @@ export const App: React.FC = () => {
       case 'expenses':
         return <RuneyExpenses />;
       case 'invoices':
+      case 'quotes':
+      case 'proposals':
+      case 'products':
         return <RuneyInvoices />;
       case 'onboarding':
         return <RuneyOnboarding />;
       case 'analytics':
         return <RuneyAnalytics />;
+      case 'chat':
+        return <RuneyTeamChat />;
       case 'ai':
         return <RuneyAIStudio />;
       case 'settings':
@@ -56,28 +63,35 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-zinc-900 flex antialiased selection:bg-black selection:text-white font-sans">
-      {/* 1. Left Pitch-Black Floating Pill Sidebar */}
+    <div className="min-h-screen bg-[#f8f9fa] text-zinc-900 flex antialiased selection:bg-black selection:text-white font-sans overflow-x-hidden">
+      {/* 1. Left Pitch-Black Expandable/Collapsible Floating Pill Sidebar */}
       <RuneySidebar />
 
-      {/* 2. Main Canvas Area */}
-      <main className="flex-1 ml-[80px] mr-4 my-4 min-h-[calc(100vh-2rem)] flex flex-col">
-        {/* Top Header & Floating Center Switcher Pill */}
-        <div className="w-full">
-          <RuneyTopNav />
-          <FloatingCenterPill />
-        </div>
+      {/* 2. Top-Center Floating Action / View Pill (Fixed in viewport, does NOT scroll with page) */}
+      <FloatingCenterPill />
 
+      {/* 3. Top-Right Floating Controls (Timer, Search, Bell 4, Avatar) (Fixed in viewport) */}
+      <RuneyTopNav />
+
+      {/* 4. Main Scrollable Canvas Area */}
+      <motion.main
+        initial={false}
+        animate={{
+          marginLeft: sidebarExpanded ? 244 : 84,
+        }}
+        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+        className="flex-1 mr-4 my-4 pt-14 min-h-[calc(100vh-2rem)] flex flex-col transition-[margin] duration-200"
+      >
         {/* Dynamic View Component */}
         <div className="flex-1 transition-opacity duration-200">
           {renderView()}
         </div>
-      </main>
+      </motion.main>
 
-      {/* 3. Bottom Avatar Switcher Dock */}
+      {/* 5. Bottom Avatar Switcher Dock (Fixed in viewport) */}
       <BottomAvatarDock />
 
-      {/* 4. Global Cmd+K Instant Action / Search Palette */}
+      {/* 6. Global Cmd+K Instant Action / Search Palette */}
       <RuneyQuickSearchModal />
     </div>
   );
